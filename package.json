@@ -24,7 +24,7 @@
     "grokipedia",
     "redirect"
   ],
-  "author": "",
+  "author": "Craig Treasure",
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.40.0",
