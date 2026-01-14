@@ -1,0 +1,42 @@
+{
+  "name": "wiki-to-grok",
+  "version": "1.0.0",
+  "description": "Redirect Wikipedia articles to Grokipedia - view AI-enhanced wiki articles",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.js && echo Watching not supported yet - run build manually",
+    "build": "tsc --noEmit && node scripts/build.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "lint": "eslint src tests --ext .ts",
+    "lint:fix": "eslint src tests --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "package": "npm run build && node scripts/package.js"
+  },
+  "keywords": [
+    "browser-extension",
+    "chrome-extension",
+    "edge-extension",
+    "wikipedia",
+    "grokipedia",
+    "redirect"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@testing-library/dom": "^9.3.0",
+    "@types/chrome": "^0.0.260",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.55.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WikiToGrok Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <h1>
+        <span class="logo">🔄</span>
+        WikiToGrok Options
+      </h1>
+      <p class="subtitle">Configure your Wikipedia to Grokipedia redirect preferences</p>
+    </header>
+    
+    <main class="options-content">
+      <!-- General Settings -->
+      <section class="settings-section">
+        <h2>General</h2>
+        
+        <div class="setting-item">
+          <label class="toggle-label" for="enabled-toggle">
+            <div class="setting-info">
+              <span class="setting-name">Extension Enabled</span>
+              <span class="setting-description">Enable or disable the extension entirely</span>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="enabled-toggle" checked>
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+        </div>
+        
+        <div class="setting-item">
+          <label class="toggle-label" for="auto-redirect-toggle">
+            <div class="setting-info">
+              <span class="setting-name">Auto-Redirect</span>
+              <span class="setting-description">Automatically redirect Wikipedia articles to Grokipedia</span>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="auto-redirect-toggle">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+        </div>
+        
+        <div class="setting-item">
+          <label class="toggle-label" for="notifications-toggle">
+            <div class="setting-info">
+              <span class="setting-name">Use Browser Notifications</span>
+              <span class="setting-description">Show browser notifications instead of in-page banner</span>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="notifications-toggle">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+        </div>
+      </section>
+      
+      <!-- Redirect Delay -->
+      <section class="settings-section">
+        <h2>Redirect Delay</h2>
+        <p class="section-description">Add a delay before auto-redirect (only applies when auto-redirect is enabled)</p>
+        
+        <div class="setting-item">
+          <div class="slider-container">
+            <input type="range" id="delay-slider" min="0" max="5000" step="500" value="0">
+            <div class="slider-labels">
+              <span>Instant</span>
+              <span id="delay-value">0s</span>
+              <span>5s</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Language Settings -->
+      <section class="settings-section">
+        <h2>Wikipedia Languages</h2>
+        <p class="section-description">Choose which Wikipedia language editions to redirect</p>
+        
+        <div class="language-controls">
+          <button type="button" id="select-all-btn" class="btn btn-secondary">Select All</button>
+          <button type="button" id="select-none-btn" class="btn btn-secondary">Select None</button>
+        </div>
+        
+        <div class="languages-grid" id="languages-grid">
+          <!-- Languages will be populated by JavaScript -->
+        </div>
+      </section>
+      
+      <!-- Actions -->
+      <section class="settings-section">
+        <h2>Actions</h2>
+        
+        <div class="actions-container">
+          <button type="button" id="reset-btn" class="btn btn-danger">
+            Reset to Defaults
+          </button>
+        </div>
+      </section>
+    </main>
+    
+    <footer class="options-footer">
+      <p>WikiToGrok v<span id="version">1.0.0</span></p>
+      <p>
+        <a href="https://github.com/user/wiki-to-grok" target="_blank" rel="noopener">GitHub</a>
+        ·
+        <a href="https://github.com/user/wiki-to-grok/issues" target="_blank" rel="noopener">Report Issue</a>
+      </p>
+    </footer>
+  </div>
+  
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" aria-live="polite"></div>
+  
+  <script type="module" src="options.js"></script>
+</body>
+</html>

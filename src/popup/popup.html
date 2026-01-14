@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WikiToGrok</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>
+        <span class="logo">🔄</span>
+        WikiToGrok
+      </h1>
+    </header>
+    
+    <main class="popup-content">
+      <div class="setting-row">
+        <label class="toggle-label" for="enabled-toggle">
+          <span class="label-text">Extension Enabled</span>
+          <div class="toggle-switch">
+            <input type="checkbox" id="enabled-toggle" checked>
+            <span class="toggle-slider"></span>
+          </div>
+        </label>
+      </div>
+      
+      <div class="setting-row">
+        <label class="toggle-label" for="auto-redirect-toggle">
+          <span class="label-text">Auto-Redirect</span>
+          <div class="toggle-switch">
+            <input type="checkbox" id="auto-redirect-toggle">
+            <span class="toggle-slider"></span>
+          </div>
+        </label>
+        <p class="setting-description">Automatically redirect Wikipedia to Grokipedia</p>
+      </div>
+      
+      <div class="status-indicator" id="status">
+        <span class="status-dot"></span>
+        <span class="status-text">Banner mode</span>
+      </div>
+    </main>
+    
+    <footer class="popup-footer">
+      <a href="#" id="options-link" class="options-link">
+        ⚙️ More Options
+      </a>
+    </footer>
+  </div>
+  
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
