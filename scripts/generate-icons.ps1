@@ -22,9 +22,9 @@ if (-not (Test-Path $outputDir)) {
 foreach ($size in $sizes) {
     $outputFile = Join-Path $outputDir "icon$size.png"
     Write-Host "  Generating ${size}x${size}..." -NoNewline
-    
-    magick $svgSource -resize "${size}x${size}" $outputFile
-    
+
+    magick -background none $svgSource -resize "${size}x${size}" $outputFile
+
     if ($LASTEXITCODE -eq 0) {
         Write-Host " OK" -ForegroundColor Green
     } else {

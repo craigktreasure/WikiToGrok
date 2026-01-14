@@ -1,4 +1,6 @@
-# WikiToGrok 🔄
+# WikiToGrok
+
+![WikiToGrok](public/icons/icon128.png)
 
 A Chrome and Edge browser extension that redirects Wikipedia articles to [Grokipedia](https://grokipedia.com), offering AI-enhanced wiki articles.
 
