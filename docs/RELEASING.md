@@ -11,21 +11,17 @@ This document describes the process for creating a new release of the WikiToGrok
 
 ### 1. Update Version Numbers
 
-On a feature branch or directly via PR, update `public/manifest.json`:
+Use the version update script to update all version numbers at once:
 
-```json
-{
-  "version": "1.0.0"
-}
+```powershell
+.\scripts\update-version.ps1 -Version "1.1.0"
 ```
 
-Optionally update `package.json` to match:
-
-```json
-{
-  "version": "1.0.0"
-}
-```
+This updates:
+- `package.json`
+- `public/manifest.json`
+- `README.md` version badge
+- `package-lock.json` (via `npm install`)
 
 ### 2. Merge to Main
 

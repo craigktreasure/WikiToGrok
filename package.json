@@ -1,6 +1,6 @@
 {
   "name": "wiki-to-grok",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Redirect Wikipedia articles to Grokipedia - view AI-enhanced wiki articles",
   "type": "module",
   "scripts": {
