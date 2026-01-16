@@ -1,6 +1,6 @@
 /**
  * Content Script for WikiToGrok Extension
- * 
+ *
  * Injected into Wikipedia pages to:
  * - Display redirect banner for article pages
  * - Handle auto-redirect when enabled
@@ -76,7 +76,7 @@ function createBanner(
   banner.id = BANNER_ID;
   banner.setAttribute('role', 'banner');
   banner.setAttribute('aria-label', 'WikiToGrok redirect suggestion');
-  
+
   // Inline styles to avoid CSS conflicts with Wikipedia
   banner.style.cssText = `
     position: fixed;
@@ -96,7 +96,7 @@ function createBanner(
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     animation: wikitogrok-slideIn 0.3s ease-out;
   `;
-  
+
   // Add animation keyframes
   const style = document.createElement('style');
   style.textContent = `
@@ -122,7 +122,7 @@ function createBanner(
     }
   `;
   document.head.appendChild(style);
-  
+
   // Create banner content
   const content = document.createElement('div');
   content.style.cssText = `
@@ -131,20 +131,20 @@ function createBanner(
     gap: 12px;
     flex: 1;
   `;
-  
+
   // Icon/Logo
   const icon = document.createElement('span');
   icon.textContent = '🔄';
   icon.style.fontSize = '20px';
   content.appendChild(icon);
-  
+
   // Message
   const message = document.createElement('span');
   message.innerHTML = `View <strong>"${articleName}"</strong> on Grokipedia`;
   content.appendChild(message);
-  
+
   banner.appendChild(content);
-  
+
   // Actions container
   const actions = document.createElement('div');
   actions.style.cssText = `
@@ -152,7 +152,7 @@ function createBanner(
     align-items: center;
     gap: 12px;
   `;
-  
+
   // Auto-redirect checkbox
   const checkboxLabel = document.createElement('label');
   checkboxLabel.style.cssText = `
@@ -163,7 +163,7 @@ function createBanner(
     font-size: 13px;
     opacity: 0.9;
   `;
-  
+
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.checked = settings.autoRedirect;
@@ -179,11 +179,11 @@ function createBanner(
       window.location.href = grokipediaUrl;
     }
   });
-  
+
   checkboxLabel.appendChild(checkbox);
   checkboxLabel.appendChild(document.createTextNode('Always redirect'));
   actions.appendChild(checkboxLabel);
-  
+
   // Open Grokipedia button
   const openButton = document.createElement('a');
   openButton.href = grokipediaUrl;
@@ -204,7 +204,7 @@ function createBanner(
     openButton.style.background = '#4a90d9';
   });
   actions.appendChild(openButton);
-  
+
   // Dismiss button
   const dismissButton = document.createElement('button');
   dismissButton.textContent = '✕';
@@ -229,9 +229,9 @@ function createBanner(
     removeBanner();
   });
   actions.appendChild(dismissButton);
-  
+
   banner.appendChild(actions);
-  
+
   return banner;
 }
 
@@ -263,12 +263,12 @@ function showBanner(
   if (existingBanner) {
     existingBanner.remove();
   }
-  
+
   const banner = createBanner(articleName, grokipediaUrl, settings);
-  
+
   // Insert at the beginning of body
   document.body.insertBefore(banner, document.body.firstChild);
-  
+
   // Add padding to body to prevent content from being hidden behind banner
   const bannerHeight = banner.offsetHeight;
   document.body.style.paddingTop = `${bannerHeight}px`;
@@ -292,40 +292,40 @@ function performRedirect(url: string, delay: number): void {
  */
 async function initialize(): Promise<void> {
   const currentUrl = window.location.href;
-  
+
   // Check if this is an article page
   if (!isArticlePage(currentUrl)) {
     return;
   }
-  
+
   // Get transformation result
   const result = transformToGrokipedia(currentUrl);
   if (!result.success || !result.grokipediaUrl || !result.articleName || !result.language) {
     return;
   }
-  
+
   // Get user settings
   const settings = await getSettings();
-  
+
   // Check if extension is enabled
   if (!settings.enabled) {
     return;
   }
-  
+
   // Check if this language is enabled
   if (!isLanguageEnabled(result.language, settings.enabledLanguages)) {
     return;
   }
-  
+
   const articleName = decodeArticleName(result.articleName);
   const grokipediaUrl = result.grokipediaUrl;
-  
+
   // Handle auto-redirect mode
   if (settings.autoRedirect) {
     performRedirect(grokipediaUrl, settings.redirectDelay);
     return;
   }
-  
+
   // Show notification if preferred
   if (settings.useNotifications) {
     await showNotification(
@@ -335,7 +335,7 @@ async function initialize(): Promise<void> {
     );
     return;
   }
-  
+
   // Default: show in-page banner
   showBanner(articleName, grokipediaUrl, settings);
 }
@@ -351,13 +351,13 @@ if (document.readyState === 'loading') {
 chrome.storage.onChanged.addListener((changes, areaName) => {
   if (areaName === 'sync' && changes.userSettings) {
     const newSettings = changes.userSettings.newValue as UserSettings;
-    
+
     // If extension was disabled, remove banner
     if (!newSettings.enabled) {
       removeBanner();
       return;
     }
-    
+
     // If auto-redirect was enabled, redirect now
     const oldSettings = changes.userSettings.oldValue as UserSettings | undefined;
     if (newSettings.autoRedirect && !oldSettings?.autoRedirect) {

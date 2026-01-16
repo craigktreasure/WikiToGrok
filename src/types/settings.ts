@@ -4,16 +4,16 @@
 export interface UserSettings {
   /** Whether to automatically redirect Wikipedia pages to Grokipedia */
   autoRedirect: boolean;
-  
+
   /** Whether to show browser notifications instead of in-page banner */
   useNotifications: boolean;
-  
+
   /** Delay in milliseconds before auto-redirect (0-5000) */
   redirectDelay: number;
-  
+
   /** List of Wikipedia language codes to enable (e.g., ['en', 'de', 'fr']) */
   enabledLanguages: string[];
-  
+
   /** Whether the extension is enabled */
   enabled: boolean;
 }
@@ -64,7 +64,7 @@ export const STORAGE_KEY = 'userSettings';
 /**
  * Message types for communication between content script and service worker
  */
-export type MessageType = 
+export type MessageType =
   | { type: 'GET_SETTINGS' }
   | { type: 'UPDATE_SETTINGS'; settings: Partial<UserSettings> }
   | { type: 'REDIRECT_TO_GROKIPEDIA'; url: string }
@@ -73,6 +73,6 @@ export type MessageType =
 /**
  * Response types from service worker
  */
-export type MessageResponse = 
+export type MessageResponse =
   | { success: true; settings?: UserSettings }
   | { success: false; error: string };

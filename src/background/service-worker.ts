@@ -1,6 +1,6 @@
 /**
  * Background Service Worker for WikiToGrok Extension
- * 
+ *
  * Handles:
  * - Dynamic redirect rules for auto-redirect mode
  * - Browser notifications when enabled
@@ -44,7 +44,7 @@ const EXCLUDED_NAMESPACES = [
  */
 function createRedirectRules(): chrome.declarativeNetRequest.Rule[] {
   const rules: chrome.declarativeNetRequest.Rule[] = [];
-  
+
   // Main redirect rule (lower priority)
   rules.push({
     id: REDIRECT_RULE_ID,
@@ -62,7 +62,7 @@ function createRedirectRules(): chrome.declarativeNetRequest.Rule[] {
       resourceTypes: [chrome.declarativeNetRequest.ResourceType.MAIN_FRAME],
     },
   });
-  
+
   // Exclusion rules for special namespaces (higher priority - blocks redirect)
   EXCLUDED_NAMESPACES.forEach((namespace, index) => {
     rules.push({
@@ -77,7 +77,7 @@ function createRedirectRules(): chrome.declarativeNetRequest.Rule[] {
       },
     });
   });
-  
+
   return rules;
 }
 
@@ -98,7 +98,7 @@ function getAllRuleIds(): number[] {
 async function updateRedirectRules(settings: UserSettings): Promise<void> {
   try {
     const allRuleIds = getAllRuleIds();
-    
+
     if (settings.enabled && settings.autoRedirect) {
       // Add all redirect rules
       await chrome.declarativeNetRequest.updateDynamicRules({
@@ -127,7 +127,7 @@ async function showNotification(
   grokipediaUrl?: string
 ): Promise<void> {
   const notificationId = `wikitogrok-${Date.now()}`;
-  
+
   await chrome.notifications.create(notificationId, {
     type: 'basic',
     iconUrl: chrome.runtime.getURL('icons/icon128.png'),
@@ -138,7 +138,7 @@ async function showNotification(
       : undefined,
     requireInteraction: true,
   });
-  
+
   // Store the URL for this notification
   if (grokipediaUrl) {
     await chrome.storage.local.set({
@@ -155,12 +155,12 @@ chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIn
     // "Open Grokipedia" button clicked
     const result = await chrome.storage.local.get(`notification-${notificationId}`);
     const url = result[`notification-${notificationId}`] as string | undefined;
-    
+
     if (url) {
       await chrome.tabs.create({ url });
     }
   }
-  
+
   // Clean up and close notification
   await chrome.storage.local.remove(`notification-${notificationId}`);
   chrome.notifications.clear(notificationId);
@@ -172,11 +172,11 @@ chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIn
 chrome.notifications.onClicked.addListener(async (notificationId) => {
   const result = await chrome.storage.local.get(`notification-${notificationId}`);
   const url = result[`notification-${notificationId}`] as string | undefined;
-  
+
   if (url) {
     await chrome.tabs.create({ url });
   }
-  
+
   await chrome.storage.local.remove(`notification-${notificationId}`);
   chrome.notifications.clear(notificationId);
 });
@@ -198,13 +198,13 @@ async function handleMessage(message: { type: string; [key: string]: unknown }):
       const settings = await getSettings();
       return { success: true, settings };
     }
-    
+
     case 'UPDATE_SETTINGS': {
       const partialSettings = message.settings as Partial<UserSettings>;
       await saveSettings(partialSettings);
       return { success: true };
     }
-    
+
     case 'SHOW_NOTIFICATION': {
       await showNotification(
         message.title as string,
@@ -213,14 +213,14 @@ async function handleMessage(message: { type: string; [key: string]: unknown }):
       );
       return { success: true };
     }
-    
+
     case 'REDIRECT_TAB': {
       const tabId = message.tabId as number;
       const url = message.url as string;
       await chrome.tabs.update(tabId, { url });
       return { success: true };
     }
-    
+
     default:
       return { success: false, error: 'Unknown message type' };
   }
@@ -231,16 +231,16 @@ async function handleMessage(message: { type: string; [key: string]: unknown }):
  */
 async function initialize(): Promise<void> {
   console.log('WikiToGrok: Service worker initializing');
-  
+
   // Load initial settings and update rules
   const settings = await getSettings();
   await updateRedirectRules(settings);
-  
+
   // Listen for settings changes
   onSettingsChange(async (newSettings) => {
     await updateRedirectRules(newSettings);
   });
-  
+
   console.log('WikiToGrok: Service worker initialized');
 }
 
