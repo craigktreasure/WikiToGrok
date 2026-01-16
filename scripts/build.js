@@ -17,18 +17,18 @@ const rootDir = resolve(__dirname, '..');
 async function copyPublicFiles() {
   const distDir = resolve(rootDir, 'dist');
   const publicDir = resolve(rootDir, 'public');
-  
+
   // Ensure dist exists
   if (!existsSync(distDir)) {
     mkdirSync(distDir, { recursive: true });
   }
-  
+
   // Copy manifest.json
   copyFileSync(
     resolve(publicDir, 'manifest.json'),
     resolve(distDir, 'manifest.json')
   );
-  
+
   // Copy icons
   const iconsDir = resolve(publicDir, 'icons');
   const distIconsDir = resolve(distDir, 'icons');
@@ -45,7 +45,7 @@ async function copyPublicFiles() {
       }
     });
   }
-  
+
   // Copy popup HTML/CSS
   const popupDir = resolve(rootDir, 'src/popup');
   copyFileSync(
@@ -56,7 +56,7 @@ async function copyPublicFiles() {
     resolve(popupDir, 'popup.css'),
     resolve(distDir, 'popup.css')
   );
-  
+
   // Copy options HTML/CSS
   const optionsDir = resolve(rootDir, 'src/options');
   copyFileSync(
@@ -71,9 +71,9 @@ async function copyPublicFiles() {
 
 async function buildExtension() {
   console.log('Building WikiToGrok extension...\n');
-  
+
   const isProduction = process.env.NODE_ENV === 'production';
-  
+
   // Build 1: ES modules for service worker, popup, options
   console.log('Step 1: Building ES modules (service worker, popup, options)...');
   await build({
@@ -100,7 +100,7 @@ async function buildExtension() {
     },
   });
   console.log('✓ ES modules built\n');
-  
+
   // Build 2: IIFE for content script (must be self-contained)
   console.log('Step 2: Building IIFE content script...');
   await build({
@@ -121,12 +121,12 @@ async function buildExtension() {
     },
   });
   console.log('✓ Content script built\n');
-  
+
   // Copy static files
   console.log('Step 3: Copying static files...');
   await copyPublicFiles();
   console.log('✓ Static files copied\n');
-  
+
   console.log('Build complete! Extension is in the dist/ folder.');
 }
 

@@ -1,6 +1,6 @@
 /**
  * Options Page Script for WikiToGrok Extension
- * 
+ *
  * Handles the full settings page with all configuration options
  */
 
@@ -52,7 +52,7 @@ async function updateSettings(settings: Partial<UserSettings>): Promise<void> {
 function showToast(message: string, type: 'success' | 'error' = 'success'): void {
   toast.textContent = message;
   toast.className = `toast ${type} show`;
-  
+
   setTimeout(() => {
     toast.classList.remove('show');
   }, 3000);
@@ -71,24 +71,24 @@ function formatDelay(ms: number): string {
  */
 function populateLanguages(enabledLanguages: string[]): void {
   languagesGrid.innerHTML = '';
-  
+
   // If empty array, all languages are enabled
   const allEnabled = enabledLanguages.length === 0;
-  
+
   SUPPORTED_LANGUAGES.forEach(lang => {
     const item = document.createElement('div');
     item.className = 'language-item';
-    
+
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = `lang-${lang.code}`;
     checkbox.checked = allEnabled || enabledLanguages.includes(lang.code);
     checkbox.addEventListener('change', handleLanguageChange);
-    
+
     const label = document.createElement('label');
     label.htmlFor = `lang-${lang.code}`;
     label.textContent = `${lang.name} (${lang.code})`;
-    
+
     item.appendChild(checkbox);
     item.appendChild(label);
     languagesGrid.appendChild(item);
@@ -101,7 +101,7 @@ function populateLanguages(enabledLanguages: string[]): void {
 function getSelectedLanguages(): string[] {
   const checkboxes = languagesGrid.querySelectorAll('input[type="checkbox"]');
   const selected: string[] = [];
-  
+
   checkboxes.forEach((cb) => {
     const checkbox = cb as HTMLInputElement;
     if (checkbox.checked) {
@@ -109,12 +109,12 @@ function getSelectedLanguages(): string[] {
       selected.push(langCode);
     }
   });
-  
+
   // If all are selected, return empty array (means all enabled)
   if (selected.length === SUPPORTED_LANGUAGES.length) {
     return [];
   }
-  
+
   return selected;
 }
 
@@ -135,7 +135,7 @@ function updateUIState(settings: UserSettings): void {
   autoRedirectToggle.disabled = !settings.enabled;
   notificationsToggle.disabled = !settings.enabled;
   delaySlider.disabled = !settings.enabled || !settings.autoRedirect;
-  
+
   // Update delay slider
   delaySlider.value = settings.redirectDelay.toString();
   delayValue.textContent = formatDelay(settings.redirectDelay);
@@ -148,20 +148,20 @@ async function initialize(): Promise<void> {
   // Set version from manifest
   const manifest = chrome.runtime.getManifest();
   versionSpan.textContent = manifest.version;
-  
+
   // Load settings
   const settings = await getSettings();
-  
+
   // Set toggle states
   enabledToggle.checked = settings.enabled;
   autoRedirectToggle.checked = settings.autoRedirect;
   notificationsToggle.checked = settings.useNotifications;
   delaySlider.value = settings.redirectDelay.toString();
   delayValue.textContent = formatDelay(settings.redirectDelay);
-  
+
   // Populate languages
   populateLanguages(settings.enabledLanguages);
-  
+
   // Update UI state
   updateUIState(settings);
 }
@@ -171,27 +171,27 @@ async function initialize(): Promise<void> {
 enabledToggle.addEventListener('change', async () => {
   const enabled = enabledToggle.checked;
   await updateSettings({ enabled });
-  
+
   const settings = await getSettings();
   updateUIState(settings);
-  
+
   showToast(enabled ? 'Extension enabled' : 'Extension disabled');
 });
 
 autoRedirectToggle.addEventListener('change', async () => {
   const autoRedirect = autoRedirectToggle.checked;
   await updateSettings({ autoRedirect });
-  
+
   const settings = await getSettings();
   updateUIState(settings);
-  
+
   showToast(autoRedirect ? 'Auto-redirect enabled' : 'Auto-redirect disabled');
 });
 
 notificationsToggle.addEventListener('change', async () => {
   const useNotifications = notificationsToggle.checked;
   await updateSettings({ useNotifications });
-  
+
   showToast(useNotifications ? 'Browser notifications enabled' : 'In-page banner enabled');
 });
 
@@ -221,11 +221,11 @@ selectNoneBtn.addEventListener('click', async () => {
     (cb as HTMLInputElement).checked = false;
   });
   await updateSettings({ enabledLanguages: ['en'] }); // Default to English only
-  
+
   // Re-check English
   const enCheckbox = document.getElementById('lang-en') as HTMLInputElement;
   if (enCheckbox) enCheckbox.checked = true;
-  
+
   showToast('Only English enabled');
 });
 

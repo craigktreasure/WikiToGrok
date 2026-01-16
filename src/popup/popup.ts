@@ -1,6 +1,6 @@
 /**
  * Popup Script for WikiToGrok Extension
- * 
+ *
  * Handles the popup UI for quick settings toggle
  */
 
@@ -44,7 +44,7 @@ async function updateSettings(settings: Partial<UserSettings>): Promise<void> {
  */
 function updateStatusIndicator(settings: UserSettings): void {
   statusIndicator.classList.remove('auto-redirect', 'disabled');
-  
+
   if (!settings.enabled) {
     statusIndicator.classList.add('disabled');
     statusText.textContent = 'Extension disabled';
@@ -63,14 +63,14 @@ function updateStatusIndicator(settings: UserSettings): void {
  */
 async function initialize(): Promise<void> {
   const settings = await getSettings();
-  
+
   // Set toggle states
   enabledToggle.checked = settings.enabled;
   autoRedirectToggle.checked = settings.autoRedirect;
-  
+
   // Update status
   updateStatusIndicator(settings);
-  
+
   // Disable auto-redirect toggle if extension is disabled
   autoRedirectToggle.disabled = !settings.enabled;
 }
@@ -80,16 +80,16 @@ async function initialize(): Promise<void> {
 enabledToggle.addEventListener('change', async () => {
   const enabled = enabledToggle.checked;
   await updateSettings({ enabled });
-  
+
   // Update auto-redirect toggle state
   autoRedirectToggle.disabled = !enabled;
-  
+
   // If disabling, also turn off auto-redirect
   if (!enabled && autoRedirectToggle.checked) {
     autoRedirectToggle.checked = false;
     await updateSettings({ autoRedirect: false });
   }
-  
+
   const settings = await getSettings();
   updateStatusIndicator(settings);
 });
@@ -97,7 +97,7 @@ enabledToggle.addEventListener('change', async () => {
 autoRedirectToggle.addEventListener('change', async () => {
   const autoRedirect = autoRedirectToggle.checked;
   await updateSettings({ autoRedirect });
-  
+
   const settings = await getSettings();
   updateStatusIndicator(settings);
 });
