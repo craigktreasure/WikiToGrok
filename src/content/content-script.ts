@@ -359,7 +359,8 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     }
     
     // If auto-redirect was enabled, redirect now
-    if (newSettings.autoRedirect && !changes.userSettings.oldValue?.autoRedirect) {
+    const oldSettings = changes.userSettings.oldValue as UserSettings | undefined;
+    if (newSettings.autoRedirect && !oldSettings?.autoRedirect) {
       const result = transformToGrokipedia(window.location.href);
       if (result.success && result.grokipediaUrl) {
         performRedirect(result.grokipediaUrl, newSettings.redirectDelay);
