@@ -1,0 +1,41 @@
+name: 'Build Extension'
+description: 'Setup environment, lint, test, and build the WikiToGrok extension'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '24'
+
+outputs:
+  dist-path:
+    description: 'Path to the built extension'
+    value: ${{ steps.build.outputs.dist-path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+
+    - name: Run linting
+      shell: bash
+      run: npm run lint
+
+    - name: Run tests
+      shell: bash
+      run: npm test
+
+    - name: Build extension
+      id: build
+      shell: bash
+      run: |
+        npm run build
+        echo "dist-path=dist" >> $GITHUB_OUTPUT
