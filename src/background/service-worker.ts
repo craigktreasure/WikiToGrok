@@ -154,7 +154,7 @@ chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIn
   if (buttonIndex === 0) {
     // "Open Grokipedia" button clicked
     const result = await chrome.storage.local.get(`notification-${notificationId}`);
-    const url = result[`notification-${notificationId}`];
+    const url = result[`notification-${notificationId}`] as string | undefined;
     
     if (url) {
       await chrome.tabs.create({ url });
@@ -171,7 +171,7 @@ chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIn
  */
 chrome.notifications.onClicked.addListener(async (notificationId) => {
   const result = await chrome.storage.local.get(`notification-${notificationId}`);
-  const url = result[`notification-${notificationId}`];
+  const url = result[`notification-${notificationId}`] as string | undefined;
   
   if (url) {
     await chrome.tabs.create({ url });
