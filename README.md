@@ -87,8 +87,8 @@ Right-click the extension icon → "Options" for:
 # Install dependencies
 npm install
 
-# Start development build (watch mode)
-npm run dev
+# Build the extension
+npm run build
 
 # Run unit tests
 npm test
