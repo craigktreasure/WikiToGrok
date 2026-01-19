@@ -39,7 +39,10 @@ body {
 }
 
 .logo {
-  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  vertical-align: middle;
+  margin-right: 4px;
 }
 
 .subtitle {

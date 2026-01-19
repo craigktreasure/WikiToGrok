@@ -5,7 +5,7 @@
 A Chrome and Edge browser extension that redirects Wikipedia articles to [Grokipedia](https://grokipedia.com), offering AI-enhanced wiki articles.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-0.0.1-green.svg)
+![Version](https://img.shields.io/badge/version-0.2.0-green.svg)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange.svg)
 
 ## ✨ Features
@@ -23,7 +23,7 @@ A Chrome and Edge browser extension that redirects Wikipedia articles to [Grokip
 ### From Web Stores (Coming Soon)
 
 - Chrome Web Store: [Link TBD]
-- Microsoft Edge Add-ons: [Link TBD]
+- Microsoft Edge Add-ons: [Store Link](https://microsoftedge.microsoft.com/addons/detail/wikitogrok/pfeofcanknhgiofncbgcoiknfijieefn)
 
 ### For Development (Load Unpacked)
 
@@ -87,8 +87,8 @@ Right-click the extension icon → "Options" for:
 # Install dependencies
 npm install
 
-# Start development build (watch mode)
-npm run dev
+# Build the extension
+npm run build
 
 # Run unit tests
 npm test
