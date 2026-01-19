@@ -23,7 +23,7 @@ A Chrome and Edge browser extension that redirects Wikipedia articles to [Grokip
 ### From Web Stores (Coming Soon)
 
 - Chrome Web Store: [Link TBD]
-- Microsoft Edge Add-ons: [Link TBD]
+- Microsoft Edge Add-ons: [Store Link](https://microsoftedge.microsoft.com/addons/detail/wikitogrok/pfeofcanknhgiofncbgcoiknfijieefn)
 
 ### For Development (Load Unpacked)
 
