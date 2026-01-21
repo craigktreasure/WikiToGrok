@@ -25,6 +25,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          lfs: true
 
       - name: Verify version in manifest matches
         run: |
