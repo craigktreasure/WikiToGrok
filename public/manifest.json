@@ -1,12 +1,11 @@
 {
   "manifest_version": 3,
   "name": "WikiToGrok",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Redirect Wikipedia articles to Grokipedia - view AI-enhanced wiki articles",
   "permissions": [
     "storage",
     "declarativeNetRequest",
-    "activeTab",
     "notifications"
   ],
   "host_permissions": [
