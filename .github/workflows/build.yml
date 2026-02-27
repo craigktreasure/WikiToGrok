@@ -24,7 +24,7 @@ jobs:
           zip -r ../wiki-to-grok-${{ github.sha }}.zip .
 
       - name: Upload extension artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: wiki-to-grok-extension
           path: wiki-to-grok-*.zip
