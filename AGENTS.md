@@ -9,7 +9,7 @@ WikiToGrok is a Chrome/Edge browser extension (Manifest V3) that redirects Wikip
 ## Commands
 
 ```bash
-npm run build          # Build extension to dist/ (runs tsc --noEmit first)
+npm run build          # Build extension to dist/ (runs typecheck first)
 npm test               # Run unit tests (Vitest)
 npm run test:watch     # Run unit tests in watch mode
 npm run test:e2e       # Run E2E tests (Playwright) - requires build first
@@ -23,6 +23,32 @@ Run a single unit test file:
 ```bash
 npx vitest run tests/unit/url-transformer.test.ts
 ```
+
+## TypeScript 6 / 7 side-by-side
+
+Type checking runs on **TypeScript 7** (the Go-native compiler). TypeScript 7 dropped
+the legacy JavaScript compiler API, which typescript-eslint still requires, so both
+versions are installed side-by-side using the layout Microsoft documents for this
+transition:
+
+| package.json entry | Resolves to | Purpose |
+| --- | --- | --- |
+| `typescript` (alias of `@typescript/typescript6`) | TS 6 at `node_modules/typescript` | Legacy JS API that typescript-eslint imports as `typescript` |
+| `typescript-7` (alias of `typescript`) | TS 7 at `node_modules/typescript-7` | The compiler used for type checking |
+
+Because both packages ship a `tsc` binary, **`npx tsc` is ambiguous and currently
+resolves to TS 6**. Always type check through the npm script, which invokes TS 7 by
+explicit path:
+
+```bash
+npm run typecheck                          # TypeScript 7 (what CI runs)
+node node_modules/typescript-7/bin/tsc     # TypeScript 7 directly
+npx tsc6                                   # TypeScript 6, if you need the old compiler
+```
+
+Once typescript-eslint supports TS 7 ([typescript-eslint#10940](https://github.com/typescript-eslint/typescript-eslint/issues/10940)),
+the `typescript` alias and the `typescript-7` entry can collapse back into a single
+`typescript` dependency and `typecheck` can go back to plain `tsc --noEmit`.
 
 ## Architecture
 
