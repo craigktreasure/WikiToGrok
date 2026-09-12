@@ -5,6 +5,13 @@
 
 import { vi } from 'vitest';
 
+/**
+ * Signature for mocks declared without an implementation. A bare `vi.fn()` infers
+ * `Mock<Procedure>`, and vitest doesn't export `Procedure`, so the inferred type of
+ * `mockChrome` can't be named in declaration output (TS2883).
+ */
+type MockedCall = (...args: unknown[]) => unknown;
+
 // Mock chrome.storage API
 const mockStorage: Record<string, unknown> = {};
 const storageListeners: Array<(changes: Record<string, unknown>, areaName: string) => void> = [];
@@ -61,13 +68,13 @@ export const mockChrome = {
     },
   },
   runtime: {
-    sendMessage: vi.fn(),
+    sendMessage: vi.fn<MockedCall>(),
     onMessage: {
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
+      addListener: vi.fn<MockedCall>(),
+      removeListener: vi.fn<MockedCall>(),
     },
     getManifest: vi.fn(() => ({ version: '1.0.0' })),
-    openOptionsPage: vi.fn(),
+    openOptionsPage: vi.fn<MockedCall>(),
     getURL: vi.fn((path: string) => `chrome-extension://mock-id/${path}`),
   },
   tabs: {
@@ -79,10 +86,10 @@ export const mockChrome = {
     create: vi.fn(() => Promise.resolve()),
     clear: vi.fn(() => Promise.resolve()),
     onClicked: {
-      addListener: vi.fn(),
+      addListener: vi.fn<MockedCall>(),
     },
     onButtonClicked: {
-      addListener: vi.fn(),
+      addListener: vi.fn<MockedCall>(),
     },
   },
   declarativeNetRequest: {
